@@ -12,8 +12,8 @@
     <div>
       <h1 class="page_heading">${g.site_title}</h1>
       <p class="welcome">Welcome to Lexington’s open data portal, a collaborative effort between <a href="http://www.lexingtonky.gov">LFUCG</a> and the community. Our mission is to promote the openness, transparency and accountability of local government by providing high-value government data in standards compliant, machine readable format. This will serve as the basis for the creation of useful civic applications by third party developers.</p>
-      <p class="welcome">Building upon phase 1 of the open data initiative, LFUCG is pleased to announce a partnership with the Fayette County Board of Elections and Fayette County Public Schools. These agencies will utilize our portal to publish 8 new GIS layers. Board of Elections data includes voting precincts and various state/local representative districts. Fayette County Public Schools data includes boundaries for elementary, middle and high school districts. The new data layers are located within the &quot;<a href="group/community">Community</a>&quot; category.</p>
-      <p class="welcome">We will continue to expand our data catalog and offerings to build on the foundation we have established.</p>
+      <p class="welcome">For the initial launch, Lexington is providing free access to its geographic information. Over 80 geographic data layers from the city’s enterprise GIS are available and will be updated on a quarterly basis. Links to existing applications promoting the transparency of the legislative process as well as crime data are accessible from the “<a href="apps">applications menu</a>”.</p>
+      <p class="welcome">In the coming months we will continue to expand our data catalog and offerings to build on the foundation we have established.</p>
     </div>
     <div class="row">
     </div>
