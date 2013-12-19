@@ -1,41 +1,96 @@
-<html xmlns:py="http://genshi.edgewall.org/"
-  xmlns:i18n="http://genshi.edgewall.org/i18n"
-  xmlns:xi="http://www.w3.org/2001/XInclude"
-  py:strip=""
-  >
+{% extends "page.html" %}
 
-  <py:def function="body_class">${h.literal('no-sidebar')}</py:def>
- 
-  <py:def function="page_title">LexingtonKy.gov</py:def>
+{% block subtitle %}{{ _("Welcome") }}{% endblock %}
 
-  <div py:match="//div[@id='content']" class="front-page">
-    <div>
-      <h1 class="page_heading">${g.site_title}</h1>
-      <p class="welcome">Welcome to Lexington’s open data portal, a collaborative effort between <a href="http://www.lexingtonky.gov">LFUCG</a> and the community. Our mission is to promote the openness, transparency and accountability of local government by providing high-value government data in standards compliant, machine readable format. This will serve as the basis for the creation of useful civic applications by third party developers.</p>
-      <p class="welcome">Building upon phase 1 of the open data initiative, LFUCG is pleased to announce a partnership with the Fayette County Board of Elections and Fayette County Public Schools. These agencies will utilize our portal to publish 8 new GIS layers. Board of Elections data includes voting precincts and various state/local representative districts. Fayette County Public Schools data includes boundaries for elementary, middle and high school districts. The new data layers are located within the &quot;<a href="group/community">Community</a>&quot; category.</p>
-      <p class="welcome">We will continue to expand our data catalog and offerings to build on the foundation we have established.</p>
-    </div>
-    <div class="row">
-    </div>
-    <div py:if="c.groups" class="row whoelse">
-      <div class="span12">
-        <h2>Data Categories</h2>
-        <p><a href="${h.url_for(controller='package', action='search')}">${c.package_count} datasets</a> available in ${h.nav_named_link(_('6 categories'), name='%s_index' % h.default_group_type() )}</p>
-      </div>
-    </div>
-    <div class="row">
-      <py:for each="i, group_dict in enumerate(c.groups[:6])">
-        <div class="span4">
-          <div class="group">
-            <h3><a href="${h.url_for(controller='group', action='read', id=group_dict['name'])}">${group_dict['title']}</a>: ${group_dict['packages']} datasets</h3>
-            <p>
-              ${h.markdown_extract(group_dict['description'])}
-            </p>
-          </div>
-        </div>
-      </py:for>
+{% block maintag %}{% endblock %}
+
+{% block content %}
+  <div role="main" class="hero">
+    <div id="content" class="container">
+      {{ self.flash() }}
+      {{ self.primary_content() }}
     </div>
   </div>
-  <xi:include href="layout.html" />
-</html>
+  <div class="main homepage">
+    <div class="container">
+      {{ self.secondary_content() }}
+    </div>
+  </div>
+{% endblock %}
 
+{% block primary_content %}
+  <div class="hero-primary module module-popup">
+    <div class="module-content box">
+      {% block home_primary %}
+        <header>
+          {% if g.site_intro_text %}
+          {{ h.render_markdown(g.site_intro_text) }}
+          {% else %}
+            {% block home_primary_content %}
+              <h1 class="page-heading">{% block home_primary_heading %}{{ _("Welcome to CKAN") }}{% endblock %}</h1>
+              <p>
+              {% block home_primary_text %}
+                {% trans %}This is a nice introductory paragraph about CKAN or the site
+                in general. We don't have any copy to go here yet but soon we will
+                {% endtrans %}
+              {% endblock %}
+              </p>
+            {% endblock %}
+          {% endif %}
+        </header>
+      {% endblock %}
+
+      {% block home_image %}
+        <section class="featured media-overlay">
+          <h2 class="media-heading">{% block home_image_caption %}{{ _("This is a featured section") }}{% endblock %}</h2>
+          {% block home_image_content %}
+            <a class="media-image" href="#">
+              <img src="http://placehold.it/420x220" alt="Placeholder" width="420" height="220" />
+            </a>
+          {% endblock %}
+        </section>
+      {% endblock %}
+    </div>
+  </div>
+  <div class="hero-secondary">
+    <div class="hero-secondary-inner">
+      {% block home_secondary_content %}
+          <div class="module module-shallow module-narrow module-dark info box">
+            {% block home_search %}
+              <form class="dataset-search module-content clearfix" method="get" action="{% url_for controller='package', action='search' %}">
+                <h3 class="heading">{{ _("Search Your Data") }}</h3>
+                <span class="control-group search-giant">
+                  <input type="text" class="search" name="q" value="{{ c.q }}" autocomplete="off" placeholder="{{ _('eg. Gold Prices') }}" />
+                  <button type="submit" value="{{ _('Search') }}">Submit</button>
+                </span>
+              </form>
+            {% endblock %}
+            {% block home_tags %}
+              <div class="tags">
+                <h3>{{ _('Popular Tags') }}</h3>
+                {% set tags = h.get_facet_items_dict('tags', limit=3) %}
+                {% for tag in tags %}
+                  <a class="tag" href="{% url_for controller='package', action='search', tags=tag.name %}">{{ h.truncate(tag.display_name, 22) }}</a>
+                {% endfor %}
+              </div>
+            {% endblock %}
+          </div>
+      {% endblock %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block secondary_content %}
+  <div class="row group-listing">
+    {% for group in c.group_package_stuff %}
+      <div class="span6">
+        <div class="box">
+          {% snippet 'snippets/group_item.html', group=group.group_dict, truncate=100 %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{# Remove the toolbar. #}
+{% block toolbar %}{% endblock %}
