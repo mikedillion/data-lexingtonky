@@ -27,11 +27,10 @@
           {{ h.render_markdown(g.site_intro_text) }}
           {% else %}
             {% block home_primary_content %}
-              <h1 class="page-heading">{% block home_primary_heading %}{{ _("Welcome to Data.LexingtonKY.gov") }}{% endblock %}</h1>
+              <h1 class="page-heading">{% block home_primary_heading %}{{ _("Data.LexingtonKY.gov") }}{% endblock %}</h1>
               <p>
               {% block home_primary_text %}
-                {% trans %}This is a nice introductory paragraph about CKAN or the site
-                in general. We don't have any copy to go here yet but soon we will
+                {% trans %}Welcome to Lexington’s open data portal, a collaborative effort between <a href="http://lexingtonky.gov">LFUCG</a> and the community.
                 {% endtrans %}
               {% endblock %}
               </p>
